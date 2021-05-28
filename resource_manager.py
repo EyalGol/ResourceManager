@@ -1,8 +1,10 @@
 from flask import Flask, render_template
 from flask_restful import Api
 from flask_jwt_simple import JWTManager
-from users import Login
+import datetime
 
+
+from users import Auth
 from devices import Device, DeviceList
 
 import config
@@ -13,6 +15,7 @@ def create_app():
     api = Api(app)
 
     app.config['JWT_SECRET_KEY'] = config.SECRET_KEY
+    app.config['JWT_EXPIRES'] = datetime.timedelta(days=1)
     jwt = JWTManager(app)
 
     # Place holder for the front end
@@ -22,7 +25,7 @@ def create_app():
 
     api.add_resource(Device, '/device/<device_id>')
     api.add_resource(DeviceList, '/devices')
-    api.add_resource(Login, '/login')
+    api.add_resource(Auth, '/auth')
 
     return app
 
