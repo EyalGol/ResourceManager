@@ -77,4 +77,7 @@ class DeviceDB:
         :return: Device or None if there is no such device
         """
         response = self.db.exec(f'select * from {self.TABLE_NAME} where device_id = \'{device_id}\'')
-        return Device(*response.fetchone())
+        device = response.fetchone()
+        if device:
+            return Device(*device)
+        return None
