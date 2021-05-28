@@ -25,7 +25,7 @@ class SQLWrapper(metaclass=Singleton):
         """
         :param path: Path to the db file
         """
-        self.con = sqlite3.connect(path)
+        self.con = sqlite3.connect(path, check_same_thread=False)
         self.cur = self.con.cursor()
 
     def exec(self, *args, **kwargs):
