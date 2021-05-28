@@ -1,6 +1,6 @@
 DEBUG = True
-SECRET_KEY = 'ChangeMe'
-AUTH = 'NO-AUTH'
+SECRET_KEY = 'CHANGE_ME'
+AUTH = 'NO_AUTH'
 
 # Setup LDAP Configuration Variables. Change these to your own settings.
 # All configuration directives can be found in the documentation.
