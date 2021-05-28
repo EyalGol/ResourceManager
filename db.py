@@ -4,6 +4,9 @@ import config
 
 
 class Singleton(type):
+    """
+    Singleton metaclass
+    """
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
@@ -16,9 +19,13 @@ class SQLWrapper(metaclass=Singleton):
     """
     Wraps sqlite as a singleton for ease of use
     """
-    def __init__(self, path=config.DB_PATH):
-        con = sqlite3.connect(path)
-        self.cur = con.cursor()
 
-    def execute(self, *args, **kwargs):
+    def __init__(self, path: str = config.DB_PATH):
+        """
+        :param path: Path to the db file
+        """
+        self.con = sqlite3.connect(path)
+        self.cur = self.con.cursor()
+
+    def exec(self, *args, **kwargs):
         return self.cur.execute(*args, **kwargs)
