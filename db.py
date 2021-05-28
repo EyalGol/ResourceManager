@@ -1,5 +1,6 @@
 import sqlite3
 import typing
+from jsons import JsonSerializable
 
 import config
 
@@ -37,7 +38,7 @@ class SQLWrapper(metaclass=Singleton):
 
 # associated table
 # create table devices (device_id text primary key, is_acquired bool, release_time int,  used_by text, used_for text)
-class Device:
+class Device(JsonSerializable):
     def __init__(self, device_id: str, is_acquired: bool = False, release_time: int = 0, used_by: str = '',
                  used_for: str = ''):
         """
