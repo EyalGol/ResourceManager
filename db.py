@@ -1,4 +1,5 @@
 import sqlite3
+import typing
 
 import config
 
@@ -29,3 +30,50 @@ class SQLWrapper(metaclass=Singleton):
 
     def exec(self, *args, **kwargs):
         return self.cur.execute(*args, **kwargs)
+
+    def commit(self) -> None:
+        self.con.commit()
+
+
+# associated table
+# create table devices (device_id text primary key, is_acquired bool, release_time int,  used_by text, used_for text)
+class Device:
+    def __init__(self, device_id: str, is_acquired: bool = False, release_time: int = 0, used_by: str = '',
+                 used_for: str = ''):
+        """
+        :param device_id: device id
+        :param is_acquired: is the device acquired
+        :param release_time: timestamp - when the until when the device is acquired
+        :param used_by: username of the user who acquired the device
+        :param used_for: description of the use of the device
+        """
+        self.used_for = used_for
+        self.used_by = used_by
+        self.release_time = release_time
+        self.is_acquired = is_acquired
+        self.device_id = device_id
+
+    def __repr__(self):
+        return f'(\'{self.device_id}\', {self.is_acquired}, {self.release_time}, \'{self.used_by}\', \'{self.used_for}\')'
+
+
+class DeviceDB:
+    TABLE_NAME = 'devices'
+
+    def __init__(self, db=SQLWrapper()):
+        self.db = db
+
+    def get_all_devices(self) -> typing.List[Device]:
+        """
+        All devices
+        """
+        response = self.db.exec(f'select * from {self.TABLE_NAME}')
+        return [Device(*device) for device in response]
+
+    def get_device(self, device_id: str) -> Device:
+        """
+        Get device by id
+        :return: Device or None if there is no such device
+        """
+        response = self.db.exec(f'select * from {self.TABLE_NAME} where device_id = \'{device_id}\'')
+        return Device(*response.fetchone())
