@@ -4,8 +4,8 @@ from flask_jwt_simple import JWTManager
 import datetime
 
 
-from users import Auth
-from devices import Device, DeviceList
+from user_resources import Auth
+from device_resources import Device, DeviceList
 
 import config
 
