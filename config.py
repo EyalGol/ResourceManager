@@ -2,6 +2,8 @@ DEBUG = True
 SECRET_KEY = 'CHANGE_ME'
 AUTH = 'NO_AUTH'
 
+DB_PATH = 'db.sql'
+
 # Setup LDAP Configuration Variables. Change these to your own settings.
 # All configuration directives can be found in the documentation.
 LDAP_CONFIG = dict()
