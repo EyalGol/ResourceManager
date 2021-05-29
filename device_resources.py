@@ -49,7 +49,8 @@ class Device(Resource):
         return f'Device {device_id} acquired successfully'
 
     def _release(self, device_id):
-        raise NotImplemented
+        self.db.release_device(device_id, get_jwt_identity())
+        return f'Device {device_id} released successfully'
 
 
 class DeviceList(Resource):

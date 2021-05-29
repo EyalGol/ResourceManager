@@ -84,7 +84,7 @@ class DeviceDB:
 
     def acquire_device(self, device_id: str, username: str, release_time: int, used_for: str = ''):
         """
-        Acquire a device
+        Acquire a device by device id
         :param device_id: device id
         :param username: Username of the acquirer
         :param release_time: release timestamp
@@ -98,4 +98,19 @@ class DeviceDB:
         self.db.exec(
             f'update {self.TABLE_NAME} set is_acquired = true, used_by = \'{username}\', release_time = {release_time},'
             f' used_for = \'{used_for}\' where device_id = \'{device_id}\'')
+        self.db.commit()
+
+    def release_device(self, device_id: str, username: str):
+        """
+        Release device by device id
+        :param username: username TODO: check privileges
+        :param device_id: device id
+        """
+        device = self.get_device(device_id)
+        if not device.is_acquired:
+            return
+
+        self.db.exec(
+            f'update {self.TABLE_NAME} set is_acquired = false, used_by = \'\', release_time = 0, used_for = \'\''
+            f' where device_id = \'{device_id}\'')
         self.db.commit()
