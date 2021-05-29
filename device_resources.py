@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask import abort, request
-from flask_jwt_simple import jwt_required
+from flask_jwt_simple import jwt_required, get_jwt_identity
+
 from db import DeviceDB
 
 
@@ -33,7 +34,14 @@ class Device(Resource):
             abort(400, f'Device: {device_id} does not exist')
 
     def _acquire(self, device_id):
-        raise NotImplemented
+        data = request.get_json()
+        release_time = data.get('release_time', None)
+        used_for = data.get('used_for', '')
+        if not release_time:
+            abort(400, 'Missing release_time parameter')
+
+        self.db.acquire_device(device_id, get_jwt_identity(), int(release_time), used_for)
+        return f'Device {device_id} acquired successfully'
 
     def _release(self, device_id):
         raise NotImplemented
