@@ -42,7 +42,10 @@ class Device(Resource):
         if not release_time:
             abort(400, 'Missing release_time parameter')
 
-        self.db.acquire_device(device_id, get_jwt_identity(), int(release_time), used_for)
+        try:
+            self.db.acquire_device(device_id, get_jwt_identity(), int(release_time), used_for)
+        except RuntimeError:
+            return f'Acquiring Device {device_id} failed'
         return f'Device {device_id} acquired successfully'
 
     def _release(self, device_id):
