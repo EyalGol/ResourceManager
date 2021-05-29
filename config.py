@@ -20,7 +20,6 @@ LDAP_CONFIG['LDAP_USER_DN'] = 'ou=users'
 # Groups DN to be prepended to the Base DN
 LDAP_CONFIG['LDAP_GROUP_DN'] = 'ou=groups'
 
-
 # The RDN attribute for your user schema on LDAP
 LDAP_CONFIG['LDAP_USER_RDN_ATTR'] = 'cn'
 
