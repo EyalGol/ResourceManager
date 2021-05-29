@@ -28,6 +28,8 @@ class Device(Resource):
             return self._acquire(device_id)
         elif action == 'release':
             return self._release(device_id)
+        else:
+            return f'Invalid action {action}', 400
 
     def _check_if_device_exists(self, device_id):
         if not self.db.get_device(device_id):
