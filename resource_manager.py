@@ -3,7 +3,6 @@ from flask_restful import Api
 from flask_jwt_simple import JWTManager
 import datetime
 
-
 from user_resources import Auth
 from device_resources import Device, DeviceList
 
@@ -32,4 +31,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=config.DEBUG)
+    app.run(debug=config.DEBUG, host='0.0.0.0', port=config.PORT)
